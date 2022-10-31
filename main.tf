@@ -11,3 +11,15 @@ resource "aws_vpc" "vpctier" {
         "Name" = "from tf"
     }
 }
+
+# Create subnet
+resource "aws_subnet" "web1" {
+  vpc_id = aws_vpc.vpctier.id
+  cidr_block = "192.168.0.0/24"
+  availability_zone = "us-east-2a"
+
+  tags = {
+    "Name" = "web1"
+  }
+
+}
