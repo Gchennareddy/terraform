@@ -1,6 +1,14 @@
 provider "aws" {
-  region = "us-east-2"
+  region = var.region
 }
+
+variable "region" {
+  type        = string
+  default     = "us-east-2"
+  description = "region in which vpctier has to be created"
+}
+
+
 # we need to create a vpc resource
 resource "aws_vpc" "vpctier" {
     cidr_block = "192.168.0.0/16"
