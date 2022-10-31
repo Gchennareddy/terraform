@@ -12,7 +12,7 @@ resource "aws_vpc" "vpctier" {
     }
 }
 
-# Create subnet
+# Create subnet web1
 resource "aws_subnet" "web1" {
   vpc_id = aws_vpc.vpctier.id
   cidr_block = "192.168.0.0/24"
@@ -22,4 +22,14 @@ resource "aws_subnet" "web1" {
     "Name" = "web1"
   }
 
+}
+
+# Create subnet web2
+resource "aws_subnet" "web2" {
+  vpc_id = aws_vpc.vpctier.id
+  cidr_block = "192.168.1.0/24"
+  availability_zone = "us-east-2b"
+  tags = {
+    "Name" = "web2"
+  }
 }
