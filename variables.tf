@@ -16,8 +16,3 @@ variable "subnets" {
 }
 
 
-variable "subnetazs" {
-  type = list(string)
-  default = ["us-east-2a","us-east-2b","us-east-2a","us-east-2b","us-east-2a","us-east-2b"]
-  description = ""
-}
