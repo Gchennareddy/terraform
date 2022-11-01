@@ -9,24 +9,20 @@ resource "aws_vpc" "vpctier" {
     }
 }
 
-# Create subnet web1
-resource "aws_subnet" "web1" {
+# Create subnet all subents
+resource "aws_subnet" "subnets" {
+  count = 6
   vpc_id = aws_vpc.vpctier.id
-  cidr_block = "192.168.0.0/24"
-  availability_zone = "us-east-2a"
+  cidr_block = var.cidrranges[count.index]
+  availability_zone = var.subnetazs[count.index]
 
   tags = {
-    "Name" = "web1"
+    "Name" = "var.subnets[count.index]"
   }
+
+  depends_on = [
+    aws_vpc.vpctier
+  ]
 
 }
 
-# Create subnet web2
-resource "aws_subnet" "web2" {
-  vpc_id = aws_vpc.vpctier.id
-  cidr_block = "192.168.1.0/24"
-  availability_zone = "us-east-2b"
-  tags = {
-    "Name" = "web2"
-  }
-}
