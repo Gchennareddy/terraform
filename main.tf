@@ -26,3 +26,14 @@ resource "aws_subnet" "subnets" {
 
 }
 
+resource "aws_internet_gateway" "vpctierigw" {
+  vpc_id = aws_vpc.vpctier.id
+  tags = {
+    "Name" = local.igw_name
+  }
+
+  depends_on = [
+    aws_vpc.vpctier
+  ]
+
+}
