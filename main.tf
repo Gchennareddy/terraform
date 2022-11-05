@@ -41,34 +41,33 @@ resource "aws_internet_gateway" "vpctierigw" {
 # Create a route table
 resource "aws_route_table" "publicrt" {
  vpc_id = aws_vpc.vpctier.id
-
  route  {
-   cidr_block = local.anywhere
-   gateway_id = aws_internet_gateway.vpctierigw.id
-
+    cidr_block = local.anywhere
+    gateway_id = aws_internet_gateway.vpctierigw.id
  }
  depends_on = [
-  aws_vpc.vpctier,
-  aws_subnet.subnets[0],
-  aws_subnet.subnets[1]
-
+    aws_vpc.vpctier,
+    aws_subnet.subnets[0],
+    aws_subnet.subnets[1]
  ]
 
  tags = {
-   "Name" = "publicrt"
- }
+    "Name" = "publicrt"
+  }
 
 }
-resource "aws_route_table_association" "webassociations" {
-  count = 2
-  route_table_id = aws_route_table.publicrt.id
-  subnet_id = aws_subnet.subnets[count.index].id
 
+resource "aws_route_table_association" "webassociations" {
+  for_each = toset(data.aws_subnets.publicsubnets.ids)
+  route_table_id = aws_route_table.publicrt.id
+  subnet_id = each.key
   depends_on = [
     aws_route_table.publicrt
-  ]
+   ]
 
 }
+  
+
 
 resource "aws_route_table" "privatert" {
   vpc_id = aws_vpc.vpctier.id
