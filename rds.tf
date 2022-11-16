@@ -28,6 +28,7 @@ resource "aws_db_instance" "vpctierdb" {
     tags = {
         "Name" = "vpctierdb"
     }
+    skip_final_snapshot = true
 
     depends_on = [
         aws_db_subnet_group.dbsubnetgroup
