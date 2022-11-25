@@ -15,4 +15,10 @@ variable "subnets" {
   description = "Name of the subnets"
 }
 
+variable "webserverinstancetype" {
+  type = string
+  default = "t2.micro"
+  description = "web server instance type"
+}
+
 
