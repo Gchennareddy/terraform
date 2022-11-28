@@ -35,3 +35,22 @@ resource "aws_instance" "webserver1" {
 
     depends_on = [ aws_db_instance.vpctierdb ]
 }
+
+resource "null_resource" "nullprovisioning" {
+   # ssh -i terraformkey.pem ubuntu@publicip
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      private_key = file("./terraformkey.pem")
+      host = aws_instance.webserver1.public_ip 
+    }
+    provisioner "remote-exec" {
+      inline = [
+        "sudo apt update",
+        "sudo apt install apache2 -y",
+        "sudo apt install php libapache2-mod-php php-mysql php-cli -y",
+        "echo '<?php phpinfo(); ?>' | sudo tee /var/www/html/info.php"]
+    }
+    
+    depends_on = [ aws_instance.webserver1 ]
+}
